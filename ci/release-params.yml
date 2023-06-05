@@ -1,0 +1,10 @@
+pipeline-config: pipelines/ilab-utility.mako
+base-branch: origin/master
+
+pipeline:
+  lifecycle:
+    is_release: true
+
+opensource_report:
+  upload:
+    enabled: true

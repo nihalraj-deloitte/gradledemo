@@ -1,0 +1,62 @@
+plugins {
+    id "parent-gradle" version "3.2.3"
+    id 'jacoco'
+	id "com.microsoft.azure.azurewebapp" version "1.1.0"
+}
+
+parentGradle {
+    artifactory {
+        publishArtifacts = false // the root project has no artifacts, only the subprojects do
+        // Workaround for PLAT-815: parentGradle should not fail when publishArtifacts=false if no jar exists
+        publishConfigs = []
+    }
+}
+
+jar {
+    enabled = false
+}
+
+allprojects {
+    group = "com.deloitteinnovation.us.hbx"
+    version = System.getenv().containsKey("FULL_VERSION") ? System.getenv("FULL_VERSION") : "unspecified"
+    apply plugin: "parent-gradle"
+    apply plugin: 'java'
+    sourceCompatibility = '11'
+    targetCompatibility = '11'
+    parentGradle {
+        keycloakEnabled = false
+        docker {
+            //no docker image is created at this time, imagePrefix value provide for parentGradle validation to work
+            imagePrefix = "com.deloitteinnovation.us.hbx"
+            maintainer = "hbx-eligibility-service"
+        }
+
+        artifactory {
+            dependencyRepository = "sbe-gradle-libs-release"
+            publishRepository = "sbe-gradle-libs-scratch"
+        }
+
+        sonarqube {
+            login = System.getenv("SONAR_AUTH_TOKEN")
+            projectKey = "sbe__hbx-eligibility-service"
+            projectName = "sbe__hbx-eligibility-service"
+            property("sonar.branch.name", System.getenv("Branch"))
+            property("sonar.coverage.jacoco.xmlReportPaths", "./build/reports/jacoco/test/jacocTestReport.xml")
+            property "sonar.exclusions", "hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/**/driver/service/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/businessrules/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/driver/model/**/*"
+            property "sonar.cpd.exclusions", "hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/**/driver/service/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/businessrules/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/driver/model/**/*"
+            property "sonar.coverage.exclusions", "hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/**/driver/service/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/businessrules/**/*,hbx-business-objects/src/main/java/com/deloitteinnovation/us/hbx/edbc/eligibility/driver/model/**/*"
+        }
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+        }
+    }
+}
+subprojects {
+    java.sourceCompatibility = JavaVersion.VERSION_11
+    tasks.withType(JavaCompile) {
+        options.encoding = "Cp1252"
+    }
+}

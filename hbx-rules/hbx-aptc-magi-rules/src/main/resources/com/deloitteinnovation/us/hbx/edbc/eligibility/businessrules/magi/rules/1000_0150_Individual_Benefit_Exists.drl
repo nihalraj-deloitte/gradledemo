@@ -1,0 +1,303 @@
+package com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.rules;
+
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Case;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Constants;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Individual;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.constants.ProgramCode;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.constants.TypeOfAssistance;
+
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_0"
+	salience 65536
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual() from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(false);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_1"
+	salience 65535
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.FFCC.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_2"
+	salience 65534
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.PREG.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_3"
+	salience 65533
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.NEWBORN.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_4"
+	salience 65532
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHL1.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_5"
+	salience 65531
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHL2.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_6"
+	salience 65530
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHL3.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_7"
+	salience 65529
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHEX.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_8"
+	salience 65528
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHIP.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_9"
+	salience 65527
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.PACA.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_10"
+	salience 65526
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.ADLT.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_11"
+	salience 65525
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.APTC.value) 
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_12"
+	salience 65524
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.CHL4.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_13"
+	salience 65523
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.TMAE.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_14"
+	salience 65522
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value)  
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.TMAS.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_15"
+	salience 65521
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&&	AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.TMCE.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_16"
+	salience 65520
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.TMCS.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_17"
+	salience 65519
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.ADPR.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_18"
+	salience 65518
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.ADFF.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end
+
+rule "Rule_1000_0150_Individual_Benefit_Exists_19"
+	salience 65517
+	ruleflow-group "1000_0150_Individual_Benefit_Exists"
+	when
+		$case:Case($caseIndividual:individual)
+		$CaseIndiv:Individual(
+			AuthorizeProgramList != null 
+			&& AuthorizeProgramList.equalsIgnoreCase(ProgramCode.MA.value) 
+			&& AuthorizeTOAList != null 
+			&& AuthorizeTOAList.equalsIgnoreCase(TypeOfAssistance.FFOS.value)
+		) from $caseIndividual
+	then
+		$CaseIndiv.setIsEligibilityIndividualBenefitExist(true);
+end

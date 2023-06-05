@@ -1,0 +1,29 @@
+package com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.rules;
+
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Case;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Individual;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.RelationShip;
+
+rule "Rule_1000_0420_Identify_Individual_Tax_Group_1"
+	salience 65535
+	ruleflow-group "1000_0420_Identify_Individual_Tax_Group"
+	when
+		$case:Case( $caseIndividual:individual )
+		$Indiv1:Individual(
+			IsTaxGroupIdSetForDependent == false 
+			&& IsFiler == true
+		) from $caseIndividual
+		$Indiv2:Individual(
+			IndividualId != $Indiv1.IndividualId 
+			&& IsTaxGroupIdSetForDependent == false 
+			&& $indiv2Relationships:relationships
+		) from $caseIndividual
+		$Rel2:RelationShip(
+			RefIndividualId == $Indiv1.IndividualId
+			&& IsTaxDependent == true
+		) from $indiv2Relationships
+	then
+		$Indiv2.setTaxGroupId( $Indiv1.getTaxGroupId());
+		$Indiv2.setIsTaxGroupIdSetForDependent(true);
+		$Indiv1.setIsTaxGroupIdSetForDependent(true);
+end

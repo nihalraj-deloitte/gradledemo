@@ -1,0 +1,43 @@
+# Helm Chart Properties for ephemeral.
+helm-chart:
+  name: hbx-eligibility-service
+  version: 2.0.0-beta4
+  key-names:
+    # The generated version number for this build
+    service-container-image-tag:
+      - image.tag
+  common:
+    # Properties & Secrets that apply to all environments
+    value-files: []
+    # A list of Helm values files e.g.
+    # - source-code/deploy/helm/values.ilab.yaml
+    parameters:
+      backend.href: "/api"
+    secrets:
+      # A map of Helm values to Pipeline Secrets
+      # Note: The values of secrets will be hidden when logging
+      private.username: ((svc-concourse-user))
+      private.password: ((svc-concourse-password))
+
+  functional-test:
+    # The number of seconds to wait for the deployment to complete
+    timeout: 900
+    # execute tests that are baked into the chart
+    perform-helm-test: false
+    value-files:
+      - source-code/deploy/helm/values.functional.yaml
+    parameters:
+      image.repository: ((docker.url-scratch))/((docker.image-name))
+
+  staging:
+    release-name: hbx-eligibility-service
+    timeout: 300
+    # execute tests that are baked into the chart
+    perform-helm-test: false
+    # Properties that apply to the functional test (ephemeral) environment
+    value-files:
+      # A list of Helm values files
+      - source-code/deploy/helm/values.staging.yaml
+    parameters:
+      # A map of Helm values to Pipeline Parameters
+      service.container.image.registry: ((docker.url-staging))

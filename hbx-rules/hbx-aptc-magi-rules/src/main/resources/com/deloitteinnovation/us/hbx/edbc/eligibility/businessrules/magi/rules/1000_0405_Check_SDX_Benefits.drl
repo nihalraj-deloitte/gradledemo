@@ -1,0 +1,98 @@
+package com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.rules;
+
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Case;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.EDGGroup;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.constants.TypeOfAssistance;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.constants.TpCodePriority;
+import com.deloitteinnovation.us.hbx.edbc.eligibility.businessrules.magi.Individual;
+
+rule "Rule_1000_0405_Check_SDX_Benefits_0"
+	salience 65535
+	ruleflow-group "1000_0405_Check_SDX_Benefits"
+	when
+		$case:Case($edgGroup:eDGGroup && $caseIndividual:individual)
+		$edg:EDGGroup() from $edgGroup
+		$caseIndiv:Individual(IsReceivingSSIFromSDX == true) from $caseIndividual
+	then
+		$caseIndiv.setPerform_SDX(true);
+end
+
+rule "Rule_1000_0405_Check_SDX_Benefits_1"
+	salience 65534
+	ruleflow-group "1000_0405_Check_SDX_Benefits"
+	when
+		$case:Case($edgGroup:eDGGroup && $caseIndividual:individual)
+		$edg:EDGGroup() from $edgGroup
+		$caseIndiv:Individual(
+			IsReceivingSSIFromSDX == true 
+			&& IsEligibilityIndividualBenefitExist == false 
+			&& IndividualAge >= 228L
+		) from $caseIndividual
+	then
+		$caseIndiv.setPerform_1000_2_3(false);
+		$caseIndiv.setIsADLT(true);
+		$edg.setTypeOfAssistance(TypeOfAssistance.ADLT.getValue());
+		$edg.setTOAPriorityNumber(TpCodePriority.ADLT.getValue().longValue());
+		$edg.setPerformEDGExit(true);
+		$edg.setIsFinancialEligibilityTestRequired(false);
+end
+
+rule "Rule_1000_0405_Check_SDX_Benefits_2"
+	salience 65533
+	ruleflow-group "1000_0405_Check_SDX_Benefits"
+	when
+		$case:Case($edgGroup:eDGGroup && $caseIndividual:individual)
+		$edg:EDGGroup() from $edgGroup
+		$caseIndiv:Individual(
+			IsReceivingSSIFromSDX == true 
+			&& IsEligibilityIndividualBenefitExist == false 
+			&& IndividualAge < 228L
+		) from $caseIndividual
+	then	
+		$caseIndiv.setPerform_1000_2_3(false);
+		$caseIndiv.setIsCHIP(true);
+		$edg.setTypeOfAssistance(TypeOfAssistance.CHIP.getValue());
+		$edg.setTOAPriorityNumber(TpCodePriority.CHIP.getValue().longValue());
+		$edg.setPerformEDGExit(true);
+		$edg.setIsFinancialEligibilityTestRequired(false);
+end
+
+rule "Rule_1000_0405_Check_SDX_Benefits_3"
+	salience 65532
+	ruleflow-group "1000_0405_Check_SDX_Benefits"
+	when
+		$case:Case($edgGroup:eDGGroup && $caseIndividual:individual)
+		$edg:EDGGroup() from $edgGroup
+		$caseIndiv:Individual(
+			IsReceivingSSIFromSDX == true 
+			&& IsEligibilityIndividualBenefitExist == true 
+			&& IndividualAge >= 228L
+		) from $caseIndividual
+	then
+		$caseIndiv.setPerform_1000_2_3(false);
+		$caseIndiv.setIsADLT(true);
+		$edg.setTypeOfAssistance(TypeOfAssistance.ADLT.getValue());
+		$edg.setTOAPriorityNumber(TpCodePriority.ADLT.getValue().longValue());
+		$edg.setPerformEDGExit(true);
+		$edg.setIsFinancialEligibilityTestRequired(false);
+end
+
+rule "Rule_1000_0405_Check_SDX_Benefits_4"
+	salience 65531
+	ruleflow-group "1000_0405_Check_SDX_Benefits"
+	when
+		$case:Case($edgGroup:eDGGroup && $caseIndividual:individual)
+		$edg:EDGGroup() from $edgGroup
+		$caseIndiv:Individual(
+			IsReceivingSSIFromSDX == true 
+			&& IsEligibilityIndividualBenefitExist == true 
+			&& IndividualAge < 228L
+		) from $caseIndividual
+	then
+		$caseIndiv.setPerform_1000_2_3(false);
+		$caseIndiv.setIsCHIP(true);
+		$edg.setTypeOfAssistance(TypeOfAssistance.CHIP.getValue());
+		$edg.setTOAPriorityNumber(TpCodePriority.CHIP.getValue().longValue());
+		$edg.setPerformEDGExit(true);
+		$edg.setIsFinancialEligibilityTestRequired(false);
+end
