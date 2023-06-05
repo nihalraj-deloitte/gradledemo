@@ -1,5 +1,0 @@
-pipeline:
-  manifest:
-    openshift_oc_tools:
-      repository: sbe-docker-release.art.tools.deloitteinnovation.us/sbe/oc-login
-      tag: 0.1.2
